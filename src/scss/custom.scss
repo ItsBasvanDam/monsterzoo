@@ -1,0 +1,17 @@
+body {
+    min-height: 100vh;
+}
+
+#configurator,
+#board {
+    padding: 1rem;
+    height: 100vh;
+    overflow: auto;
+}
+
+#loading {
+    position: absolute;
+    z-index: 1000;
+    left: calc(50% - 25px);
+    top: calc(50% - 25px);
+}

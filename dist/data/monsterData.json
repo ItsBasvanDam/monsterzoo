@@ -1,0 +1,464 @@
+{
+    "water": [{
+            "type": "select",
+            "name": "arm-amount",
+            "displayName": "Arm Amount",
+            "values": [{
+                "key": 1,
+                "value": 1
+            }, {
+                "key": 2,
+                "value": 2
+            }, {
+                "key": 3,
+                "value": 3
+            }, {
+                "key": 4,
+                "value": 4
+            }, {
+                "key": 5,
+                "value": 5
+            }, {
+                "key": 6,
+                "value": 6
+            }, {
+                "key": 7,
+                "value": 7
+            }, {
+                "key": 8,
+                "value": 8
+            }]
+        },
+        {
+            "type": "select",
+            "name": "arm-type",
+            "displayName": "Arm Type",
+            "values": [{
+                    "key": "tentacle",
+                    "value": "Tentacles"
+                },
+                {
+                    "key": "fin",
+                    "value": "Fins"
+                }
+            ]
+        },
+        {
+            "type": "select",
+            "name": "leg-amount",
+            "displayName": "Leg Amount",
+            "values": [{
+                    "key": 0,
+                    "value": 0
+                },
+                {
+                    "key": 1,
+                    "value": 1
+                },
+                {
+                    "key": 2,
+                    "value": 2
+                },
+                {
+                    "key": 3,
+                    "value": 3
+                },
+                {
+                    "key": 4,
+                    "value": 4
+                }
+            ]
+        },
+        {
+            "type": "select",
+            "name": "eye-amount",
+            "displayName": "Eye Amount",
+            "values": [{
+                    "key": 1,
+                    "value": 1
+                },
+                {
+                    "key": 2,
+                    "value": 2
+                },
+                {
+                    "key": 3,
+                    "value": 3
+                },
+                {
+                    "key": 4,
+                    "value": 4
+                },
+                {
+                    "key": 5,
+                    "value": 5
+                },
+                {
+                    "key": 6,
+                    "value": 6
+                },
+                {
+                    "key": 7,
+                    "value": 7
+                },
+                {
+                    "key": 8,
+                    "value": 8
+                }
+            ]
+        },
+        {
+            "type": "select",
+            "name": "skin-type",
+            "displayName": "Skin Type",
+            "values": [{
+                    "key": "scale",
+                    "value": "Scales"
+                },
+                {
+                    "key": "slime",
+                    "value": "Slimey"
+                }
+            ]
+        },
+        {
+            "type": "select",
+            "name": "color",
+            "displayName": "Color",
+            "values": [{
+                    "key": "blue",
+                    "value": "Blue"
+                },
+                {
+                    "key": "red",
+                    "value": "Red"
+                },
+                {
+                    "key": "green",
+                    "value": "Green"
+                }
+            ]
+        },
+        {
+            "type": "fact",
+            "name": "can-fly",
+            "displayName": "Can Fly",
+            "value": "No"
+        },
+        {
+            "type": "fact",
+            "name": "can-swim",
+            "displayName": "Can Swim",
+            "value": "Yes"
+        }
+    ],
+    "fire": [{
+            "type": "select",
+            "name": "arm-amount",
+            "displayName": "Arm Amount",
+            "values": [{
+                "key": 1,
+                "value": 1
+            }, {
+                "key": 2,
+                "value": 2
+            }, {
+                "key": 3,
+                "value": 3
+            }, {
+                "key": 4,
+                "value": 4
+            }, {
+                "key": 5,
+                "value": 5
+            }, {
+                "key": 6,
+                "value": 6
+            }]
+        },
+        {
+            "type": "select",
+            "name": "arm-type",
+            "displayName": "Arm Type",
+            "values": [{
+                    "key": "tentacle",
+                    "value": "Tentacles"
+                },
+                {
+                    "key": "claw",
+                    "value": "Claws"
+                },
+                {
+                    "key": "claw-wing",
+                    "value": "Claw-wings"
+                }
+            ]
+        },
+        {
+            "type": "select",
+            "name": "leg-amount",
+            "displayName": "Leg Amount",
+            "values": [{
+                    "key": 0,
+                    "value": 0
+                },
+                {
+                    "key": 2,
+                    "value": 2
+                }
+            ]
+        },
+        {
+            "type": "select",
+            "name": "eye-amount",
+            "displayName": "Eye Amount",
+            "values": [{
+                    "key": 1,
+                    "value": 1
+                },
+                {
+                    "key": 2,
+                    "value": 2
+                },
+                {
+                    "key": 3,
+                    "value": 3
+                },
+                {
+                    "key": 4,
+                    "value": 4
+                }
+            ]
+        },
+        {
+            "type": "select",
+            "name": "skin-type",
+            "displayName": "Skin Type",
+            "values": [{
+                    "key": "scale",
+                    "value": "Scales"
+                },
+                {
+                    "key": "feather",
+                    "value": "Feathers"
+                }
+            ]
+        },
+        {
+            "type": "select",
+            "name": "color",
+            "displayName": "Color",
+            "values": [{
+                    "key": "red",
+                    "value": "Red"
+                },
+                {
+                    "key": "orange",
+                    "value": "Orange"
+                },
+                {
+                    "key": "brown",
+                    "value": "Brown"
+                }
+            ]
+        },
+        {
+            "type": "fact",
+            "name": "can-fly",
+            "displayName": "Can Fly",
+            "value": "No"
+        },
+        {
+            "type": "fact",
+            "name": "can-swim",
+            "displayName": "Can Swim",
+            "value": "No"
+        }
+    ],
+    "earth": [{
+            "type": "select",
+            "name": "arm-amount",
+            "displayName": "Arm Amount",
+            "values": [{
+                "key": 2,
+                "value": 2
+            }]
+        },
+        {
+            "type": "select",
+            "name": "arm-type",
+            "displayName": "Arm Type",
+            "values": [{
+                "key": "claw",
+                "value": "Claws"
+            }]
+        },
+        {
+            "type": "select",
+            "name": "leg-amount",
+            "displayName": "Leg Amount",
+            "values": [{
+                    "key": 2,
+                    "value": 2
+                },
+                {
+                    "key": 4,
+                    "value": 4
+                },
+                {
+                    "key": 6,
+                    "value": 6
+                }
+            ]
+        },
+        {
+            "type": "select",
+            "name": "eye-amount",
+            "displayName": "Eye Amount",
+            "values": [{
+                "key": 2,
+                "value": 2
+            }]
+        },
+        {
+            "type": "select",
+            "name": "skin-type",
+            "displayName": "Skin Type",
+            "values": [{
+                    "key": "hair",
+                    "value": "Hair"
+                },
+                {
+                    "key": "scale",
+                    "value": "Scales"
+                },
+                {
+                    "key": "slime",
+                    "value": "Slimey"
+                }
+            ]
+        },
+        {
+            "type": "select",
+            "name": "color",
+            "displayName": "Color",
+            "values": [{
+                    "key": "purple",
+                    "value": "Purple"
+                },
+                {
+                    "key": "orange",
+                    "value": "Orange"
+                },
+                {
+                    "key": "white",
+                    "value": "White"
+                }
+            ]
+        },
+        {
+            "type": "fact",
+            "name": "can-fly",
+            "displayName": "Can Fly",
+            "value": "No"
+        }, {
+            "type": "fact",
+            "name": "can-swim",
+            "displayName": "Can Swim",
+            "value": "No"
+        }
+    ],
+    "air": [{
+            "type": "select",
+            "name": "arm-amount",
+            "displayName": "Arm Amount",
+            "values": [{
+                "key": 2,
+                "value": 2
+            }]
+        },
+        {
+            "type": "select",
+            "name": "arm-type",
+            "displayName": "Arm Type",
+            "values": [{
+                "key": "wing",
+                "value": "Wings"
+            }, {
+                "key": "claw-wing",
+                "value": "Claw-wings"
+            }]
+        },
+        {
+            "type": "select",
+            "name": "leg-amount",
+            "displayName": "Leg Amount",
+            "values": [{
+                    "key": 0,
+                    "value": 0
+                },
+                {
+                    "key": 2,
+                    "value": 2
+                }
+            ]
+        },
+        {
+            "type": "select",
+            "name": "eye-amount",
+            "displayName": "Eye Amount",
+            "values": [{
+                "key": 2,
+                "value": 2
+            }]
+        },
+        {
+            "type": "select",
+            "name": "skin-type",
+            "displayName": "Skin Type",
+            "values": [{
+                    "key": "feather",
+                    "value": "Feathers"
+                },
+                {
+                    "key": "hair",
+                    "value": "Hair"
+                },
+                {
+                    "key": "scale",
+                    "value": "Scales"
+                }
+            ]
+        },
+        {
+            "type": "select",
+            "name": "color",
+            "displayName": "Color",
+            "values": [{
+                    "key": "white",
+                    "value": "White"
+                },
+                {
+                    "key": "blue",
+                    "value": "Blue"
+                },
+                {
+                    "key": "purple",
+                    "value": "Purple"
+                }
+            ]
+        },
+        {
+            "type": "fact",
+            "name": "can-fly",
+            "displayName": "Can Fly",
+            "value": "Yes"
+        },
+        {
+            "type": "fact",
+            "name": "can-swim",
+            "displayName": "Can Swim",
+            "value": "No"
+        }
+    ]
+}

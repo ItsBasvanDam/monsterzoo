@@ -1,0 +1,25 @@
+{
+  "name": "monster-zoo",
+  "version": "1.0.0",
+  "description": "Final assignment for WEBS3 course, created by Bas van Dam.",
+  "main": "app.js",
+  "scripts": {
+    "develop": "webpack --mode development --watch",
+    "build": "webpack --mode production"
+  },
+  "author": "ItsBasvanDam",
+  "license": "ISC",
+  "devDependencies": {
+    "postcss-loader": "^3.0.0",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.33.0",
+    "webpack-cli": "^3.3.3"
+  },
+  "dependencies": {
+    "autoprefixer": "^9.6.0",
+    "bootstrap": "^4.3.1",
+    "css-loader": "^2.1.1",
+    "node-sass": "^4.12.0"
+  }
+}
