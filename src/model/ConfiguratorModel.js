@@ -5,7 +5,7 @@ export default class ConfiguratorModel {
     }
 
     async getData() {
-        await this.getMonsterDataFromAPI().then((json) => {
+        await this.getMonsterDataFromAPI().then(json => {
             this.data = json;
         });
     }
@@ -15,8 +15,7 @@ export default class ConfiguratorModel {
     }
 
     async getMonsterDataFromAPI() {
-        return fetch("data/monsterData.json")
-            .then((response) => response.json());
+        return fetch("data/monsterData.json").then(response => response.json());
     }
 
     getConfiguratorField() {
@@ -24,10 +23,26 @@ export default class ConfiguratorModel {
     }
 
     getMonsterTypes() {
-        return Object.keys(this.data);
+        let types = new Array();
+        let rawTypeData = Object.keys(this.data);
+        for (let index in rawTypeData) {
+            types.push({
+                key: rawTypeData[index],
+                value: this.capitalizeFirstLetter(rawTypeData[index])
+            });
+        }
+        return types;
     }
 
     getAttributes(monsterType) {
         return this.data[monsterType];
+    }
+
+    capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
+    addInput(input) {
+        this.inputs.push(input);
     }
 }

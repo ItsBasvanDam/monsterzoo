@@ -1,14 +1,15 @@
 import InputView from "./InputView";
 
 export default class SelectInputView extends InputView {
-    constructor(labelText, id) {
+    constructor(labelText, id, selectCallback) {
         super();
-        this.create(labelText, id);
+        this.name = labelText;
+        this.create(id, selectCallback);
     }
 
-    create(labelText, id) {
+    create(id, selectCallback) {
         let label = document.createElement("label");
-        label.innerText = labelText;
+        label.innerText = this.name;
         label.setAttribute("for", id);
 
         this.select = document.createElement("select");
@@ -16,17 +17,27 @@ export default class SelectInputView extends InputView {
         this.select.id = id;
         this.select.name = id;
         this.select.required = true;
-
-        this.select.append(this.createDefaultOption(labelText));
+        this.select.addEventListener("change", selectCallback);
 
         this.append(label, this.select);
     }
 
-    createDefaultOption(labelText) {
-        let option = new Option(`-- select your ${labelText} --`, "");
-        option.disabled = true;
-        option.selected = true;
-        return option;
+    setOptions(options) {
+        options.forEach((option) => {
+            this.select.append(new Option(option.value, option.key));
+        });
+    }
+
+    change(data) {
+        switch (data.key) {
+            case "options":
+                this.setOptions(data.value);
+                break;
+            case "value":
+                console.log(data.value.key);
+                this.select.value = data.value.key;
+                break;
+        }
     }
 }
 
