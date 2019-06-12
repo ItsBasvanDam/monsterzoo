@@ -1,24 +1,29 @@
 import InputView from "./InputView";
 
 export default class TextInputView extends InputView {
-    constructor(labelText, id) {
+    constructor(labelText, id, inputCallback) {
         super();
-        this.create(labelText, id);
+        this.create(labelText, id, inputCallback);
     }
 
-    create(labelText, id) {
+    create(labelText, id, inputCallback) {
         let label = document.createElement("label");
         label.innerText = labelText;
         label.setAttribute("for", id);
 
-        let input = document.createElement("input");
-        input.type = "text";
-        input.classList.add("form-control");
-        input.id = id;
-        input.name = id;
-        input.required = true;
+        this.input = document.createElement("input");
+        this.input.type = "text";
+        this.input.classList.add("form-control");
+        this.input.id = id;
+        this.input.name = id;
+        this.input.required = true;
+        this.input.addEventListener("input", inputCallback);
 
-        this.append(label, input);
+        this.append(label, this.input);
+    }
+
+    change(data) {
+        this.input.value = data;
     }
 }
 

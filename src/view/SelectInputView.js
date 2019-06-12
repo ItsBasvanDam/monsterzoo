@@ -12,19 +12,20 @@ export default class SelectInputView extends InputView {
         label.innerText = this.name;
         label.setAttribute("for", id);
 
-        this.select = document.createElement("select");
-        this.select.classList.add("form-control");
-        this.select.id = id;
-        this.select.name = id;
-        this.select.required = true;
-        this.select.addEventListener("change", selectCallback);
+        this.input = document.createElement("select");
+        this.input.classList.add("form-control");
+        this.input.id = id;
+        this.input.name = id;
+        this.input.required = true;
+        this.input.addEventListener("change", selectCallback);
 
-        this.append(label, this.select);
+        this.append(label, this.input);
     }
 
     setOptions(options) {
+        this.input.innerHTML = "";
         options.forEach((option) => {
-            this.select.append(new Option(option.value, option.key));
+            this.input.append(new Option(option.value, option.key));
         });
     }
 
@@ -34,8 +35,7 @@ export default class SelectInputView extends InputView {
                 this.setOptions(data.value);
                 break;
             case "value":
-                console.log(data.value.key);
-                this.select.value = data.value.key;
+                this.input.value = data.value;
                 break;
         }
     }

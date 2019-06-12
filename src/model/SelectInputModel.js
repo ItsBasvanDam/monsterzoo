@@ -17,9 +17,9 @@ export default class SelectInputModel extends InputModel {
         });
 
         try {
-            this.setValue(this.value);
+            this.setValue(this.value.key);
         } catch (error) {
-            this.setValue(options[0]);
+            this.setValue(options[0].key);
         }
     }
 
@@ -28,16 +28,27 @@ export default class SelectInputModel extends InputModel {
     }
 
     setValue(value) {
-        if (this.options.includes(value)) {
-            this.value = value;
-            eventDispatcher.dispatch(this.id, {
-                key: "value",
-                value: this.value
-            });
-        } else {
-            throw new Error(
-                `Error: select input "${this.getValue()}" does not have the option ${value}`
-            );
+        if (this.value != value) {
+            if (this.optionListHasKey(this.options, value)) {
+                this.value = value;
+                eventDispatcher.dispatch(this.id, {
+                    key: "value",
+                    value: this.value
+                });
+            } else {
+                throw new Error(
+                    `select input "${this.name}" does not have the option ${value}`
+                );
+            }
         }
+    }
+
+    optionListHasKey(options, key) {
+        for (let index in options) {
+            if (options[index].key == key) {
+                return true;
+            }
+        }
+        return false;
     }
 }

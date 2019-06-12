@@ -45,4 +45,12 @@ export default class ConfiguratorModel {
     addInput(input) {
         this.inputs.push(input);
     }
+
+    setInputValue(inputId, value) {
+        for (let index in this.inputs) {
+            if (this.inputs[index].id == inputId) {
+                this.inputs[index].setValue(value);
+            }
+        }
+    }
 }
