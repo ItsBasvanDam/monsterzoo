@@ -27,6 +27,7 @@ export default class SelectInputView extends InputView {
         options.forEach((option) => {
             this.input.append(new Option(option.value, option.key));
         });
+        this.input.disabled = !(options.length > 1);
     }
 
     change(data) {

@@ -59,7 +59,8 @@ export default class MonsterController {
         this.createSelectInput(
             "Monster Type",
             "monster-type",
-            this.model.getMonsterTypes()
+            this.model.getMonsterTypes(),
+            false
         );
     }
 
@@ -79,14 +80,13 @@ export default class MonsterController {
             newTextInputModel.id,
             newTextInputView.change
         );
-
-        newTextInputView.fireEvent("input");
-
         this.model.addInput(newTextInputModel);
         this.view.addToFixedSection(newTextInputView);
+
+        newTextInputView.fireEvent("input");
     }
 
-    createSelectInput(name, id, options) {
+    createSelectInput(name, id, options, isVariable = true) {
         let newSelectInputModel = new SelectInputModel(name, id);
         let newSelectInputView = new SelectInputView(
             newSelectInputModel.name,
@@ -102,12 +102,36 @@ export default class MonsterController {
             newSelectInputModel.id,
             newSelectInputView.change
         );
+        this.model.addInput(newSelectInputModel);
+        if (isVariable) {
+            this.view.addToVariableSection(newSelectInputView);
+        } else {
+            this.view.addToFixedSection(newSelectInputView);
+        }
 
         newSelectInputModel.setOptions(options);
         newSelectInputView.fireEvent("change");
+    }
 
-        this.model.addInput(newSelectInputModel);
-        this.view.addToFixedSection(newSelectInputView);
+    prepareForm() {
+        let attributes = this.model.getAttributes(
+            this.model.getInputValue("monster-type")
+        );
+        this.view.clearVariableSection();
+
+        attributes.forEach((attribute) => {
+            this.model.clearModel(attribute.name);
+            switch (attribute.type) {
+                case "select":
+                    this.createSelectInput(
+                        attribute.displayName,
+                        attribute.name,
+                        attribute.values
+                    );
+                    break;
+            }
+        });
+        this.model.validateAll();
     }
 
     onTextChange(event) {
@@ -116,6 +140,10 @@ export default class MonsterController {
 
     onSelectChange(event) {
         this.model.setInputValue(event.target.id, event.target.value);
+        if (event.target.id == "monster-type") {
+            this.prepareForm();
+        }
+        this.model.applyValidation(event.target.id);
     }
 
     onError(message) {

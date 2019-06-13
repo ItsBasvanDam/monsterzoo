@@ -45,6 +45,13 @@ export default class ConfiguratorView extends HTMLElement {
         this.variableSection = document.createElement("div");
         this.addToForm(this.variableSection);
     }
+
+    clearVariableSection() {
+        if (!this.variableSection) {
+            this.addVariableSection();
+        }
+        this.variableSection.innerHTML = "";
+    }
 }
 
 customElements.define("configurator-view", ConfiguratorView);

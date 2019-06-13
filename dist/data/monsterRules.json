@@ -1,0 +1,58 @@
+{
+    "water": [{
+        "triggerName": "arm-amount",
+        "compareName": "leg-amount",
+        "operator": "<=",
+        "value": 4,
+        "then": [
+            { "key": 1, "value": 1 },
+            { "key": 2, "value": 2 },
+            { "key": 3, "value": 3 },
+            { "key": 4, "value": 4 }
+        ],
+        "else": [
+            { "key": 0, "value": 0 }
+        ]
+    }],
+    "fire": [{
+            "triggerName": "arm-amount",
+            "compareName": "leg-amount",
+            "operator": "<=",
+            "value": 2,
+            "then": [
+                { "key": 2, "value": 2 }
+            ],
+            "else": [
+                { "key": 0, "value": 0 }
+            ]
+        },
+        {
+            "triggerName": "skin-type",
+            "compareName": "can-fly",
+            "operator": "==",
+            "value": "feather",
+            "then": "Yes",
+            "else": "No"
+        }
+    ],
+    "earth": [
+
+    ],
+    "air": [{
+            "triggerName": "skin-type",
+            "compareName": "can-swim",
+            "operator": "==",
+            "value": "hair",
+            "then": "Yes",
+            "else": "No"
+        },
+        {
+            "triggerName": "skin-type",
+            "compareName": "can-swim",
+            "operator": "==",
+            "value": "scale",
+            "then": "Yes",
+            "else": "No"
+        }
+    ]
+}
