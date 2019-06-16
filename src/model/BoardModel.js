@@ -7,7 +7,7 @@ export default class BoardModel {
         this.regions = new Array();
         this.monsters = new Array();
 
-        this.configuratorField = new FieldModel(-1, -1, true);
+        this.configuratorField = null;
     }
 
     getDataSource() {
@@ -63,12 +63,68 @@ export default class BoardModel {
         }
     }
 
+    addMonster(monsterModel) {
+        this.monsters.push(monsterModel);
+        return this.monsters.indexOf(monsterModel);
+    }
+
+    getMonster(regionName, x, y) {
+        let field = this.getField(regionName, x, y);
+        for (let index in this.monsters) {
+            if (this.monsters[index].getCurrentField() == field) {
+                return this.monsters[index];
+            }
+        }
+        return false;
+    }
+
+    removeMonster(regionName, x, y) {
+        let monster = this.getMonster(regionName, x, y);
+        if (monster) {
+            this.monsters.splice(this.monsters.indexOf(monster), 1);
+        }
+    }
+
+    createConfiguratorField() {
+        this.configuratorField = new FieldModel(-1, -1, "configurator", true);
+    }
+
     getConfiguratorField() {
+        if (!this.configuratorField) {
+            this.createConfiguratorField();
+        }
         return this.configuratorField;
+    }
+
+    getConfiguratorMonster() {
+        for (let index in this.monsters) {
+            if (
+                this.monsters[index].getCurrentField() == this.configuratorField
+            ) {
+                return this.monsters[index];
+            }
+        }
+        return null;
+    }
+
+    getRegionNames() {
+        let names = new Array();
+        this.regions.forEach(region => {
+            names.push({ key: region.name, value: region.name });
+        });
+        return names;
+    }
+
+    isFieldOccupied(field) {
+        for (let index in this.monsters) {
+            if (this.monsters[index].getCurrentField() == field) {
+                return true;
+            }
+        }
+        return !field.isHabitable();
     }
 
     saveDataToLocalStorage() {
         // TODO save this.regions & this.monsters
-
     }
 }

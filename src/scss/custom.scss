@@ -15,3 +15,14 @@ body {
     left: calc(50% - 25px);
     top: calc(50% - 25px);
 }
+
+td.field {
+    text-align: center;
+    width: 70px;
+    height: 70px;
+    border: 1px solid rgb(211, 211, 211);
+}
+
+td.field.uninabitable {
+    background: #999;
+}

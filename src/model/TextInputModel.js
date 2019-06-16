@@ -12,4 +12,8 @@ export default class TextInputModel extends InputModel {
         this.value = value;
         eventDispatcher.dispatch(this.id, value);
     }
+
+    setOptions(option) {
+        this.setValue(option);
+    }
 }

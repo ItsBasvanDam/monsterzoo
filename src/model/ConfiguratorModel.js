@@ -1,3 +1,5 @@
+import MonsterModel from "./MonsterModel";
+
 export default class ConfiguratorModel {
     constructor() {
         this.inputs = new Array();
@@ -41,8 +43,18 @@ export default class ConfiguratorModel {
         return this.data[monsterType];
     }
 
+    saveMonster(monsterModel) {
+        // Either create a new monster or update the already existing one.
+        let monster = monsterModel == null ? new MonsterModel() : monsterModel;
+        this.inputs.forEach(input => {
+            monster.setAttribute(input.id, input.getValue());
+        });
+        // monster.setCurrentField(this.getConfiguratorField());
+        return monster;
+    }
+
     validateAll() {
-        this.inputs.forEach((input) => {
+        this.inputs.forEach(input => {
             this.applyValidation(input.id);
         });
     }
@@ -55,7 +67,9 @@ export default class ConfiguratorModel {
                 // Run rule.
                 if (
                     eval(
-                        `"${this.getInputValue(rule.triggerName)}" ${rule.operator} "${rule.value}"`
+                        `"${this.getInputValue(rule.triggerName)}" ${
+                            rule.operator
+                        } "${rule.value}"`
                     )
                 ) {
                     // Set values of "compareName" to "then" array.

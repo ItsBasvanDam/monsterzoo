@@ -1,13 +1,16 @@
-export default class ConfiguratorView extends HTMLElement {
+import ViewBase from "./ViewBase";
+
+export default class ConfiguratorView extends ViewBase {
     constructor() {
         super();
         document.querySelector("#configurator").append(this);
     }
 
-    addTitle(text) {
-        let title = document.createElement("h3");
-        title.innerText = text;
-        this.append(title);
+    addSubmit(text) {
+        let button = document.createElement("button");
+        button.innerText = text;
+        button.classList.add("btn", "btn-block", "btn-success", "mt-3");
+        this.addToVariableSection(button);
     }
 
     addToForm(element) {
@@ -51,6 +54,13 @@ export default class ConfiguratorView extends HTMLElement {
             this.addVariableSection();
         }
         this.variableSection.innerHTML = "";
+    }
+
+    addFormListener(submitCallback) {
+        if (!this.form) {
+            this.addForm();
+        }
+        this.form.addEventListener("submit", submitCallback);
     }
 }
 

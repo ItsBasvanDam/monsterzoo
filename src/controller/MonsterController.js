@@ -6,6 +6,8 @@ import SelectInputView from "../view/SelectInputView";
 import SelectInputModel from "../model/SelectInputModel";
 import eventDispatcher from "../util/EventDispatcher";
 import TextInputModel from "../model/TextInputModel";
+import FieldView from "../view/FieldView";
+import MonsterView from "../view/MonsterView";
 
 export default class MonsterController {
     constructor() {
@@ -49,13 +51,18 @@ export default class MonsterController {
     }
 
     drawConfigurator() {
-        this.view = new ConfiguratorView();
-        this.view.addTitle("Monster Configurator");
-
         this.onTextChange = this.onTextChange.bind(this);
         this.onSelectChange = this.onSelectChange.bind(this);
+        this.onFormSubmit = this.onFormSubmit.bind(this);
 
-        this.createTextInput("Name", "name");
+        this.view = new ConfiguratorView();
+        this.view.addTitle("Monster Configurator");
+        this.view.addFormListener(this.onFormSubmit);
+
+        let editField = this.boardController.createConfiguratorField();
+        this.view.addToFixedSection(editField.getElement());
+
+        this.createTextInput("Name", "name", false, false);
         this.createSelectInput(
             "Monster Type",
             "monster-type",
@@ -64,12 +71,19 @@ export default class MonsterController {
         );
     }
 
-    createTextInput(name, id) {
+    createTextInput(
+        name,
+        id,
+        isDisabled = false,
+        isVariable = true,
+        value = ""
+    ) {
         let newTextInputModel = new TextInputModel(name, id);
         let newTextInputView = new TextInputView(
             newTextInputModel.name,
             newTextInputModel.id,
-            this.onTextChange
+            this.onTextChange,
+            isDisabled
         );
         // Link the View and Model using an EventDispatcher in Singleton-scope.
         newTextInputView.change = newTextInputView.change.bind(
@@ -80,8 +94,14 @@ export default class MonsterController {
             newTextInputModel.id,
             newTextInputView.change
         );
+
         this.model.addInput(newTextInputModel);
-        this.view.addToFixedSection(newTextInputView);
+        if (isVariable) {
+            this.view.addToVariableSection(newTextInputView);
+        } else {
+            this.view.addToFixedSection(newTextInputView);
+        }
+        newTextInputModel.setValue(value);
 
         newTextInputView.fireEvent("input");
     }
@@ -102,6 +122,7 @@ export default class MonsterController {
             newSelectInputModel.id,
             newSelectInputView.change
         );
+
         this.model.addInput(newSelectInputModel);
         if (isVariable) {
             this.view.addToVariableSection(newSelectInputView);
@@ -119,7 +140,7 @@ export default class MonsterController {
         );
         this.view.clearVariableSection();
 
-        attributes.forEach((attribute) => {
+        attributes.forEach(attribute => {
             this.model.clearModel(attribute.name);
             switch (attribute.type) {
                 case "select":
@@ -129,9 +150,19 @@ export default class MonsterController {
                         attribute.values
                     );
                     break;
+                case "fact":
+                    this.createTextInput(
+                        attribute.displayName,
+                        attribute.name,
+                        true,
+                        true,
+                        attribute.value
+                    );
+                    break;
             }
         });
         this.model.validateAll();
+        this.view.addSubmit("Save Monster");
     }
 
     onTextChange(event) {
@@ -144,6 +175,38 @@ export default class MonsterController {
             this.prepareForm();
         }
         this.model.applyValidation(event.target.id);
+    }
+
+    onFormSubmit(event) {
+        event.preventDefault();
+        let newMonster = this.model.saveMonster(
+            this.boardController.getConfiguratorMonster()
+        );
+        let monsterIndex = this.boardController.addMonster(newMonster);
+        newMonster.setAttribute("id", monsterIndex);
+
+        let editFieldModel = this.boardController.getConfiguratorField();
+        let editField = document.querySelector(
+            `td[data-x="${editFieldModel.x}"][data-y="${editFieldModel.y}"]`
+        );
+
+        editField.innerHTML = "";
+        let newMonsterView = new MonsterView();
+        newMonsterView.setData({
+            x: -1,
+            y: -1,
+            regionName: "configurator",
+            id: monsterIndex
+        });
+        // Link the model and the view.
+        newMonsterView.setData = newMonsterView.setData.bind(newMonsterView);
+        eventDispatcher.addListener(
+            `monster${newMonster.getAttribute("id")}`,
+            newMonsterView.setData
+        );
+        editField.append(newMonsterView);
+
+        newMonster.setCurrentField(this.boardController.getConfiguratorField());
     }
 
     onError(message) {

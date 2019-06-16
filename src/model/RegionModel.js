@@ -13,9 +13,10 @@ export default class RegionModel {
     createGrid() {
         this.fields = new Array();
         for (let y in this.grid) {
+            this.fields[y] = [];
             for (let x in this.grid[y]) {
                 let canHaveOccupant = this.grid[y][x] != "1";
-                this.fields.push(new FieldModel(x, y, canHaveOccupant));
+                this.fields[y][x] = new FieldModel(x, y, this.name, canHaveOccupant);
             }
         }
 
@@ -25,10 +26,12 @@ export default class RegionModel {
 
     getField(x, y) {
         if (this.fields) {
-            for (let i in this.fields) {
-                let field = this.fields[i];
-                if (field.x == x && field.y == y) {
-                    return field;
+            for (let yPos in this.fields) {
+                for (let xPos in this.fields[yPos]) {
+                    let field = this.fields[yPos][xPos];
+                    if (field.x == x && field.y == y) {
+                        return field;
+                    }
                 }
             }
         } else {
