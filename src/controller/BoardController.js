@@ -2,12 +2,17 @@ import BoardModel from "../model/BoardModel";
 import BoardView from "../view/BoardView";
 import SelectInputView from "../view/SelectInputView";
 import FieldView from "../view/FieldView";
+import MonsterView from "../view/MonsterView";
+import eventDispatcher from "../util/EventDispatcher";
 
 export default class BoardController {
     constructor(monsterController) {
         this.onDrop = this.onDrop.bind(this);
         this.onDragOver = this.onDragOver.bind(this);
         this.onRegionChange = this.onRegionChange.bind(this);
+        this.onDragStart = this.onDragStart.bind(this);
+        this.onMouseEnter = this.onMouseEnter.bind(this);
+        this.onMouseLeave = this.onMouseLeave.bind(this);
 
         this.regionViews = new Array();
         this.model = new BoardModel();
@@ -97,9 +102,48 @@ export default class BoardController {
 
         // Finally, draw all the monsters to the board.
         this.model.monsters.forEach(monster => {
-            this.view.displayMonster(monster);
+            this.displayMonster(monster);
         });
         regionsPicker.fireEvent("change");
+    }
+
+    displayMonster(monsterData, fieldModel = null) {
+        let x, y, regionName;
+        if (fieldModel != null) {
+            x = fieldModel.x;
+            y = fieldModel.y;
+            regionName = fieldModel.regionName;
+        } else {
+            x = monsterData.currentField.x;
+            y = monsterData.currentField.y;
+            regionName = monsterData.currentField.regionName;
+        }
+        if (this.view.getRegionView(regionName)) {
+            this.view.setCurrentRegion(this.view.getRegionView(regionName));
+        }
+
+        let field = document.querySelector(
+            `td[data-x="${x}"][data-y="${y}"][data-region-name="${regionName}"]`
+        );
+        field.innerHTML = "";
+        let newMonsterView = new MonsterView();
+        newMonsterView.addEventListener("dragstart", this.onDragStart);
+        newMonsterView.addEventListener("mouseenter", this.onMouseEnter);
+        newMonsterView.addEventListener("mouseleave", this.onMouseLeave);
+        newMonsterView.setData({
+            x: x,
+            y: y,
+            regionName: regionName,
+            id: monsterData.getAttribute("id"),
+            imageSrc: monsterData.getAttribute("image")
+        });
+        // Link the model and the view.
+        newMonsterView.setData = newMonsterView.setData.bind(newMonsterView);
+        eventDispatcher.addListener(
+            `monster${monsterData.getAttribute("id")}`,
+            newMonsterView.setData
+        );
+        field.append(newMonsterView);
     }
 
     createRegionView(regionData) {
@@ -135,9 +179,6 @@ export default class BoardController {
     }
 
     onDrop(event) {
-        let xFrom = event.dataTransfer.getData("x");
-        let yFrom = event.dataTransfer.getData("y");
-        let regionNameFrom = event.dataTransfer.getData("regionName");
         let monsterId = event.dataTransfer.getData("id");
 
         let xTo = event.target.getAttribute("data-x");
@@ -146,7 +187,7 @@ export default class BoardController {
         let fieldTo = this.model.getField(regionNameTo, xTo, yTo);
 
         // Get the dragged monster.
-        let monster = this.model.getMonster(regionNameFrom, xFrom, yFrom);
+        let monster = this.model.getMonsterById(monsterId);
         // Set its new position.
         monster.setCurrentField(fieldTo);
         let fieldToView = document.querySelector(
@@ -174,10 +215,18 @@ export default class BoardController {
         }
     }
 
-    // onDragStart(event) {
-    //     console.log(event);
-    //     // event.dataTransfer.setData();
-    // }
+    onDragStart(event) {
+        event.dataTransfer.setData("id", event.target.id);
+    }
+
+    onMouseEnter(event) {
+        let monsterData = this.model.getMonsterById(event.target.id);
+        event.target.displayInfo(monsterData);
+    }
+
+    onMouseLeave(event) {
+        event.target.hideInfo();
+    }
 
     /**
      * Only to showcase my cool loading gif.

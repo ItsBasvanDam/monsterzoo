@@ -6,7 +6,6 @@ import SelectInputView from "../view/SelectInputView";
 import SelectInputModel from "../model/SelectInputModel";
 import eventDispatcher from "../util/EventDispatcher";
 import TextInputModel from "../model/TextInputModel";
-import MonsterView from "../view/MonsterView";
 import CanvasController from "./CanvasController";
 import MonsterModel from "../model/MonsterModel";
 
@@ -235,27 +234,10 @@ export default class MonsterController {
                 `td[data-x="${editFieldModel.x}"][data-y="${editFieldModel.y}"]`
             );
 
-            // TODO ========================================================
-            editField.innerHTML = "";
-            let newMonsterView = new MonsterView();
-            newMonsterView.setData({
-                x: -1,
-                y: -1,
-                regionName: "configurator",
-                id: monsterIndex,
-                imageSrc: newMonster.getAttribute("image")
-            });
-            // Link the model and the view.
-            newMonsterView.setData = newMonsterView.setData.bind(
-                newMonsterView
+            this.boardController.displayMonster(
+                newMonster,
+                this.boardController.getConfiguratorField()
             );
-            eventDispatcher.addListener(
-                `monster${newMonster.getAttribute("id")}`,
-                newMonsterView.setData
-            );
-            editField.append(newMonsterView);
-            // TODO ========================================================
-
             newMonster.setCurrentField(
                 this.boardController.getConfiguratorField()
             );

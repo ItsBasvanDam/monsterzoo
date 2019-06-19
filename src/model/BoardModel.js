@@ -84,6 +84,15 @@ export default class BoardModel {
         return false;
     }
 
+    getMonsterById(id) {
+        for (let index in this.monsters) {
+            if (this.monsters[index].getAttribute("id") == id) {
+                return this.monsters[index];
+            }
+        }
+        return false;
+    }
+
     removeMonster(regionName, x, y) {
         let monster = this.getMonster(regionName, x, y);
         if (monster) {
@@ -131,7 +140,6 @@ export default class BoardModel {
     }
 
     saveDataToLocalStorage() {
-        // TODO save this.regions & this.monsters
         localStorage.clear();
         localStorage.setItem("isSavePresent", true);
         localStorage.setItem("boardData", JSON.stringify(this.regions));
