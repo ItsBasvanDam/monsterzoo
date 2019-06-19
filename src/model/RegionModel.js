@@ -32,7 +32,6 @@ export default class RegionModel {
                 }
             }
         } else {
-            console.log(this);
             throw new Error("Field has not yet been initialized");
         }
         return false;

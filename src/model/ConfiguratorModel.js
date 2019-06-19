@@ -49,7 +49,6 @@ export default class ConfiguratorModel {
         this.inputs.forEach(input => {
             monster.setAttribute(input.id, input.getValue());
         });
-        // monster.setCurrentField(this.getConfiguratorField());
         return monster;
     }
 

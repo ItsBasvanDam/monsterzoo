@@ -200,9 +200,10 @@ export default class BoardController {
         if (fieldTo.x == -1 && fieldTo.y == -1) {
             // The monster has been dragged to the configurator.
             this.monsterController.setFormMonster(monster);
+        } else {
+            // Save all the data to localStorage.
+            this.model.saveDataToLocalStorage();
         }
-        // Save all the data to localStorage.
-        this.model.saveDataToLocalStorage();
     }
 
     onDragOver(event) {
@@ -217,6 +218,7 @@ export default class BoardController {
 
     onDragStart(event) {
         event.dataTransfer.setData("id", event.target.id);
+        event.target.hideInfo();
     }
 
     onMouseEnter(event) {

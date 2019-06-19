@@ -8,9 +8,14 @@ import eventDispatcher from "../util/EventDispatcher";
 import TextInputModel from "../model/TextInputModel";
 import CanvasController from "./CanvasController";
 import MonsterModel from "../model/MonsterModel";
+import AWN from "../../node_modules/awesome-notifications/dist/index";
 
 export default class MonsterController {
     constructor() {
+        this.notifier = new AWN({
+            icons: { enabled: false },
+            position: "bottom-right"
+        });
         this.initialize();
     }
 
@@ -34,9 +39,13 @@ export default class MonsterController {
                         this.drawConfigurator();
                         this.drawBoard();
                     })
-                    .catch(error => this.onError);
+                    .catch(error => {
+                        this.onError(error);
+                    });
             })
-            .catch(error => this.onError);
+            .catch(error => {
+                this.onError(error);
+            });
     }
 
     displayLoading() {
@@ -216,9 +225,13 @@ export default class MonsterController {
             let newMonster = this.model.saveMonster(
                 this.boardController.getConfiguratorMonster()
             );
-            let monsterIndex = this.boardController.addMonster(newMonster);
+            if (!newMonster.getAttribute("id")) {
+                // This is a new monster.
+                let monsterIndex = this.boardController.addMonster(newMonster);
+                newMonster.setAttribute("id", monsterIndex);
+            }
+            // Set attributes like the monsters image, imageData and color.
             this.canvasController.setColor(newMonster.getAttribute("color"));
-            // Set attributes like the monsters image, imageData and id.
             newMonster.setAttribute(
                 "image",
                 this.canvasController.getDataURL()
@@ -227,13 +240,6 @@ export default class MonsterController {
                 "imageData",
                 this.canvasController.getDrawingData()
             );
-            newMonster.setAttribute("id", monsterIndex);
-
-            let editFieldModel = this.boardController.getConfiguratorField();
-            let editField = document.querySelector(
-                `td[data-x="${editFieldModel.x}"][data-y="${editFieldModel.y}"]`
-            );
-
             this.boardController.displayMonster(
                 newMonster,
                 this.boardController.getConfiguratorField()
@@ -241,11 +247,13 @@ export default class MonsterController {
             newMonster.setCurrentField(
                 this.boardController.getConfiguratorField()
             );
+        } else {
+            this.notifier.alert("Please draw a monster before saving!");
         }
     }
 
     onError(message) {
-        alert(
+        this.notifier.alert(
             `An error occured while loading the game data: "${message}". The application will now exit.`
         );
         this.hideLoading();

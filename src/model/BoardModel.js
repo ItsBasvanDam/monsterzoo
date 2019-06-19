@@ -66,7 +66,8 @@ export default class BoardModel {
 
     addMonster(monsterModel) {
         this.monsters.push(monsterModel);
-        return this.monsters.indexOf(monsterModel);
+        // Return a unique ID for the new monster.
+        return new Date().valueOf();
     }
 
     getMonster(regionName, x, y) {

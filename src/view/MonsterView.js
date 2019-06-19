@@ -39,7 +39,7 @@ export default class MonsterView extends HTMLElement {
     }
 
     displayInfo(monsterData) {
-        let infoString = new String();
+        let infoString = "";
         let data = monsterData.attributes;
         for (let key in monsterData.attributes) {
             if (key != "id" && key != "image" && key != "imageData") {
