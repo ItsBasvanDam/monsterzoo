@@ -19,10 +19,21 @@ body {
 td.field {
     text-align: center;
     width: 70px;
+    min-width: 70px;
     height: 70px;
-    border: 1px solid rgb(211, 211, 211);
+    min-height: 70px;
 }
 
 td.field.uninabitable {
     background: #999;
+}
+
+canvas {
+    cursor: crosshair;
+}
+
+canvas,
+td.field {
+    background: lightgray;
+    border: 1px solid darkgray;
 }

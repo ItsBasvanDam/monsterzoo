@@ -19,9 +19,6 @@ export default class RegionModel {
                 this.fields[y][x] = new FieldModel(x, y, this.name, canHaveOccupant);
             }
         }
-
-        // Finally, clean up the old grid.
-        delete this.grid;
     }
 
     getField(x, y) {
@@ -35,6 +32,7 @@ export default class RegionModel {
                 }
             }
         } else {
+            console.log(this);
             throw new Error("Field has not yet been initialized");
         }
         return false;

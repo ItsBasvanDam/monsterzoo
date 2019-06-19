@@ -6,8 +6,9 @@ import SelectInputView from "../view/SelectInputView";
 import SelectInputModel from "../model/SelectInputModel";
 import eventDispatcher from "../util/EventDispatcher";
 import TextInputModel from "../model/TextInputModel";
-import FieldView from "../view/FieldView";
 import MonsterView from "../view/MonsterView";
+import CanvasController from "./CanvasController";
+import MonsterModel from "../model/MonsterModel";
 
 export default class MonsterController {
     constructor() {
@@ -15,7 +16,8 @@ export default class MonsterController {
     }
 
     async initialize() {
-        this.boardController = new BoardController();
+        this.boardController = new BoardController(this);
+        this.canvasController = new CanvasController();
 
         this.displayLoading();
         this.boardController
@@ -102,7 +104,6 @@ export default class MonsterController {
             this.view.addToFixedSection(newTextInputView);
         }
         newTextInputModel.setValue(value);
-
         newTextInputView.fireEvent("input");
     }
 
@@ -134,7 +135,34 @@ export default class MonsterController {
         newSelectInputView.fireEvent("change");
     }
 
+    /**
+     * Used to set the form data equal to that of the monsters
+     * attributes.
+     *
+     * @param monsterModel
+     */
+    setFormMonster(monsterModel) {
+        let tempMonster = new MonsterModel();
+        Object.assign(tempMonster, monsterModel);
+        for (let key in tempMonster.attributes) {
+            this.model.setInputValue(key, tempMonster.attributes[key]);
+            this.setMonsterType(key);
+            switch (key) {
+                case "color":
+                    this.canvasController.setColor(tempMonster.attributes[key]);
+                    break;
+                case "imageData":
+                    this.canvasController.setDrawing(
+                        tempMonster.attributes[key]
+                    );
+                    break;
+            }
+            this.model.applyValidation(key);
+        }
+    }
+
     prepareForm() {
+        this.canvasController.initializeCanvas();
         let attributes = this.model.getAttributes(
             this.model.getInputValue("monster-type")
         );
@@ -161,7 +189,9 @@ export default class MonsterController {
                     break;
             }
         });
+        // Validate all attributes to set them and check validity.
         this.model.validateAll();
+        this.view.addToVariableSection(this.canvasController.getElement());
         this.view.addSubmit("Save Monster");
     }
 
@@ -171,42 +201,65 @@ export default class MonsterController {
 
     onSelectChange(event) {
         this.model.setInputValue(event.target.id, event.target.value);
-        if (event.target.id == "monster-type") {
+        this.setMonsterType(event.target.id);
+        this.model.applyValidation(event.target.id);
+    }
+
+    setMonsterType(type) {
+        if (type == "monster-type") {
             this.prepareForm();
         }
-        this.model.applyValidation(event.target.id);
     }
 
     onFormSubmit(event) {
         event.preventDefault();
-        let newMonster = this.model.saveMonster(
-            this.boardController.getConfiguratorMonster()
-        );
-        let monsterIndex = this.boardController.addMonster(newMonster);
-        newMonster.setAttribute("id", monsterIndex);
+        if (this.canvasController.hasDrawing()) {
+            let newMonster = this.model.saveMonster(
+                this.boardController.getConfiguratorMonster()
+            );
+            let monsterIndex = this.boardController.addMonster(newMonster);
+            this.canvasController.setColor(newMonster.getAttribute("color"));
+            // Set attributes like the monsters image, imageData and id.
+            newMonster.setAttribute(
+                "image",
+                this.canvasController.getDataURL()
+            );
+            newMonster.setAttribute(
+                "imageData",
+                this.canvasController.getDrawingData()
+            );
+            newMonster.setAttribute("id", monsterIndex);
 
-        let editFieldModel = this.boardController.getConfiguratorField();
-        let editField = document.querySelector(
-            `td[data-x="${editFieldModel.x}"][data-y="${editFieldModel.y}"]`
-        );
+            let editFieldModel = this.boardController.getConfiguratorField();
+            let editField = document.querySelector(
+                `td[data-x="${editFieldModel.x}"][data-y="${editFieldModel.y}"]`
+            );
 
-        editField.innerHTML = "";
-        let newMonsterView = new MonsterView();
-        newMonsterView.setData({
-            x: -1,
-            y: -1,
-            regionName: "configurator",
-            id: monsterIndex
-        });
-        // Link the model and the view.
-        newMonsterView.setData = newMonsterView.setData.bind(newMonsterView);
-        eventDispatcher.addListener(
-            `monster${newMonster.getAttribute("id")}`,
-            newMonsterView.setData
-        );
-        editField.append(newMonsterView);
+            // TODO ========================================================
+            editField.innerHTML = "";
+            let newMonsterView = new MonsterView();
+            newMonsterView.setData({
+                x: -1,
+                y: -1,
+                regionName: "configurator",
+                id: monsterIndex,
+                imageSrc: newMonster.getAttribute("image")
+            });
+            // Link the model and the view.
+            newMonsterView.setData = newMonsterView.setData.bind(
+                newMonsterView
+            );
+            eventDispatcher.addListener(
+                `monster${newMonster.getAttribute("id")}`,
+                newMonsterView.setData
+            );
+            editField.append(newMonsterView);
+            // TODO ========================================================
 
-        newMonster.setCurrentField(this.boardController.getConfiguratorField());
+            newMonster.setCurrentField(
+                this.boardController.getConfiguratorField()
+            );
+        }
     }
 
     onError(message) {

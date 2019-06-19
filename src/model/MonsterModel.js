@@ -1,9 +1,12 @@
 import eventDispatcher from "../util/EventDispatcher";
 
 export default class MonsterModel {
-    constructor() {
+    constructor(monsterData = null) {
         this.currentField = null;
-        this.attributes = new Array();
+        this.attributes = {};
+        if (monsterData != null) {
+            Object.assign(this, monsterData);
+        }
     }
 
     setCurrentField(field) {

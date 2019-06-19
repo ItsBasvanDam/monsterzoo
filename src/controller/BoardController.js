@@ -4,13 +4,14 @@ import SelectInputView from "../view/SelectInputView";
 import FieldView from "../view/FieldView";
 
 export default class BoardController {
-    constructor() {
+    constructor(monsterController) {
         this.onDrop = this.onDrop.bind(this);
         this.onDragOver = this.onDragOver.bind(this);
         this.onRegionChange = this.onRegionChange.bind(this);
 
         this.regionViews = new Array();
         this.model = new BoardModel();
+        this.monsterController = monsterController;
     }
 
     async loadGameData() {
@@ -93,6 +94,11 @@ export default class BoardController {
         );
         regionsPicker.setOptions(this.model.getRegionNames());
         this.view.add(regionsPicker);
+
+        // Finally, draw all the monsters to the board.
+        this.model.monsters.forEach(monster => {
+            this.view.displayMonster(monster);
+        });
         regionsPicker.fireEvent("change");
     }
 
@@ -148,14 +154,14 @@ export default class BoardController {
                 fieldTo.y
             }"][data-region-name="${regionNameTo}"]`
         );
-        fieldToView.appendChild(
-            document.getElementById(monsterId)
-        );
+        fieldToView.appendChild(document.getElementById(monsterId));
 
         if (fieldTo.x == -1 && fieldTo.y == -1) {
             // The monster has been dragged to the configurator.
-            console.log('time to configure');
+            this.monsterController.setFormMonster(monster);
         }
+        // Save all the data to localStorage.
+        this.model.saveDataToLocalStorage();
     }
 
     onDragOver(event) {

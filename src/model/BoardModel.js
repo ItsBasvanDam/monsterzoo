@@ -37,7 +37,8 @@ export default class BoardModel {
         this.monsters = new Array();
         // Cycle through the data and initialize Monsters.
         for (let i in monsterData) {
-            this.monsters.push(new MonsterModel(monsterData[i]));
+            let newMonster = new MonsterModel(monsterData[i]);
+            this.monsters.push(newMonster);
         }
     }
 
@@ -71,7 +72,12 @@ export default class BoardModel {
     getMonster(regionName, x, y) {
         let field = this.getField(regionName, x, y);
         for (let index in this.monsters) {
-            if (this.monsters[index].getCurrentField() == field) {
+            let compareField = this.monsters[index].getCurrentField();
+            if (
+                compareField.x == field.x &&
+                compareField.y == field.y &&
+                compareField.regionName == field.regionName
+            ) {
                 return this.monsters[index];
             }
         }
@@ -126,5 +132,9 @@ export default class BoardModel {
 
     saveDataToLocalStorage() {
         // TODO save this.regions & this.monsters
+        localStorage.clear();
+        localStorage.setItem("isSavePresent", true);
+        localStorage.setItem("boardData", JSON.stringify(this.regions));
+        localStorage.setItem("monsterData", JSON.stringify(this.monsters));
     }
 }

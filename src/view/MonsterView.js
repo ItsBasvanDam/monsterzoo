@@ -3,11 +3,11 @@ export default class MonsterView extends HTMLElement {
         super();
         this.root = this.attachShadow({ mode: "open" });
 
-        let image = document.createElement("img");
-        image.src = "img/loading.gif";
-        image.width = 60;
-        image.height = 60;
-        this.root.append(image);
+        this.image = document.createElement("img");
+        this.image.src = "img/loading.gif";
+        this.image.width = 60;
+        this.image.height = 60;
+        this.root.append(this.image);
         this.draggable = true;
 
         this.addEventListener("dragstart", this.handleDragStart);
@@ -15,6 +15,7 @@ export default class MonsterView extends HTMLElement {
 
     setData(data) {
         Object.assign(this, data);
+        this.image.src = this.imageSrc;
     }
 
     handleDragStart(event) {
