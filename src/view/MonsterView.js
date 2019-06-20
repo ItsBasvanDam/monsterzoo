@@ -78,6 +78,8 @@ export default class MonsterView extends HTMLElement {
             this.classList.remove("animated", animation);
         });
         this.classList.add("animated", animation);
+        let audio = new Audio(`sound/${monsterType}.mp3`);
+        audio.play();
     }
 }
 
