@@ -103,6 +103,24 @@ export default class BoardModel {
         this.saveDataToLocalStorage();
     }
 
+    getAdjacentMonsters(centerField) {
+        let monsters = [];
+        for (let x = -1; x <= 1; x++) {
+            for (let y = -1; y <= 1; y++) {
+                let monster = this.getMonster(
+                    centerField.regionName,
+                    parseInt(centerField.x) + x,
+                    parseInt(centerField.y) + y
+                );
+                // Only return other monsters, not the one on the centerField.
+                if (monster && !(x == 0 && y == 0)) {
+                    monsters.push(monster);
+                }
+            }
+        }
+        return monsters;
+    }
+
     createConfiguratorField() {
         this.configuratorField = new FieldModel(-1, -1, "configurator", true);
     }

@@ -13,19 +13,32 @@ export default class MonsterView extends HTMLElement {
                     text-align: left;
                     text-wrap: wrap;
                     width: 200px;
+                    z-index: 1000;
                 }
             </style>
         `;
         this.draggable = true;
         this.style.display = "block";
+        this.style.position = "relative";
 
         this.image = document.createElement("img");
         this.image.src = "img/loading.gif";
         this.image.width = 60;
         this.image.height = 60;
         this.card = this.createHoverDisplay();
+        this.alertBalloon = this.createAlertBalloon();
 
-        this.root.append(this.image, this.card);
+        this.root.append(this.image, this.card, this.alertBalloon);
+    }
+
+    createAlertBalloon() {
+        let balloon = new Image(50);
+        balloon.style.position = "absolute";
+        balloon.style.visibility = "hidden";
+        balloon.style.right = "-35px";
+        balloon.style.top = "-25px";
+        balloon.style.zIndex = "2000";
+        return balloon;
     }
 
     createHoverDisplay() {
@@ -80,6 +93,17 @@ export default class MonsterView extends HTMLElement {
         this.classList.add("animated", animation);
         let audio = new Audio(`sound/${monsterType}.mp3`);
         audio.play();
+    }
+
+    showAlert() {
+        this.alertBalloon.style.visibility = "visible";
+        this.alertBalloon.src = "img/alert-balloon.gif";
+        this.hideAlert = this.hideAlert.bind(this);
+        setTimeout(this.hideAlert, 1500);
+    }
+
+    hideAlert() {
+        this.alertBalloon.style.visibility = "hidden";
     }
 }
 

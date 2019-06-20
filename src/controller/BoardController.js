@@ -188,6 +188,16 @@ export default class BoardController {
         return table;
     }
 
+    triggerAdjacentMonsters(centerField) {
+        let monsters = this.model.getAdjacentMonsters(centerField);
+        monsters.forEach(monster => {
+            let monsterView = document.getElementById(
+                monster.getAttribute("id")
+            );
+            monsterView.showAlert();
+        });
+    }
+
     onRegionChange(event) {
         let region = this.view.getRegionView(event.target.value);
         this.view.setCurrentRegion(region);
@@ -218,6 +228,7 @@ export default class BoardController {
         } else {
             // Save all the data to localStorage.
             this.model.saveDataToLocalStorage();
+            this.triggerAdjacentMonsters(fieldTo);
         }
     }
 
@@ -246,6 +257,7 @@ export default class BoardController {
     }
 
     onMonsterClick(event) {
+        event.target.hideInfo();
         let monsterType = this.model
             .getMonsterById(event.target.id)
             .getAttribute("monster-type");
