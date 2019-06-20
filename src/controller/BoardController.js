@@ -66,7 +66,11 @@ export default class BoardController {
     removeMonster(monsterModel) {
         // Remove the View.
         let field = this.getConfiguratorField();
-        let fieldView = this.view.getFieldView(field.x, field.y, field.regionName);
+        let fieldView = this.view.getFieldView(
+            field.x,
+            field.y,
+            field.regionName
+        );
         fieldView.innerHTML = "";
         // Remove the Model.
         this.model.removeMonster(monsterModel.getAttribute("id"));
@@ -242,7 +246,10 @@ export default class BoardController {
     }
 
     onMonsterClick(event) {
-        console.log('grrrr');
+        let monsterType = this.model
+            .getMonsterById(event.target.id)
+            .getAttribute("monster-type");
+        event.target.animateReaction(monsterType);
     }
 
     /**

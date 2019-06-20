@@ -6,17 +6,18 @@ export default class MonsterView extends HTMLElement {
             <style>
                 .info-card {
                     background: white;
-                    border: 1px solid darkgray;
+                    border: 4px solid darkgray;
                     border-radius: 5px;
                     padding: .5rem;
                     box-shadow: 0 0 5px 0 black;
                     text-align: left;
                     text-wrap: wrap;
-                    max-width: 200px;
+                    width: 200px;
                 }
             </style>
         `;
         this.draggable = true;
+        this.style.display = "block";
 
         this.image = document.createElement("img");
         this.image.src = "img/loading.gif";
@@ -48,12 +49,35 @@ export default class MonsterView extends HTMLElement {
                 infoString += `${key}: <strong>${data[key]}</strong><br>`;
             }
         }
+        this.card.style.borderColor = monsterData.attributes["color"];
         this.card.innerHTML = infoString;
         this.card.style.visibility = "visible";
     }
 
     hideInfo() {
         this.card.style.visibility = "hidden";
+    }
+
+    animateReaction(monsterType) {
+        let animation = "heartBeat";
+        switch (monsterType) {
+            case "water":
+                animation = "jello";
+                break;
+            case "fire":
+                animation = "wobble";
+                break;
+            case "earth":
+                animation = "bounce";
+                break;
+            case "air":
+                animation = "flash";
+                break;
+        }
+        this.addEventListener("animationend", function(event) {
+            this.classList.remove("animated", animation);
+        });
+        this.classList.add("animated", animation);
     }
 }
 
