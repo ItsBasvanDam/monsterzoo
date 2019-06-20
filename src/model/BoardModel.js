@@ -94,11 +94,13 @@ export default class BoardModel {
         return false;
     }
 
-    removeMonster(regionName, x, y) {
-        let monster = this.getMonster(regionName, x, y);
+    removeMonster(id) {
+        let monster = this.getMonsterById(id);
         if (monster) {
             this.monsters.splice(this.monsters.indexOf(monster), 1);
         }
+        // Save the deletion.
+        this.saveDataToLocalStorage();
     }
 
     createConfiguratorField() {

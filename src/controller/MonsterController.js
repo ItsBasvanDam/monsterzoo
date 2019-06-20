@@ -64,6 +64,7 @@ export default class MonsterController {
         this.onTextChange = this.onTextChange.bind(this);
         this.onSelectChange = this.onSelectChange.bind(this);
         this.onFormSubmit = this.onFormSubmit.bind(this);
+        this.onMonsterDelete = this.onMonsterDelete.bind(this);
 
         this.view = new ConfiguratorView();
         this.view.addTitle("Monster Configurator");
@@ -200,7 +201,12 @@ export default class MonsterController {
         // Validate all attributes to set them and check validity.
         this.model.validateAll();
         this.view.addToVariableSection(this.canvasController.getElement());
-        this.view.addSubmit("Save Monster");
+        this.view.addButton("Save Monster", "btn-success", undefined, true);
+        this.view.addButton(
+            "Delete Monster",
+            "btn-danger",
+            this.onMonsterDelete
+        );
     }
 
     onTextChange(event) {
@@ -249,6 +255,22 @@ export default class MonsterController {
             );
         } else {
             this.notifier.alert("Please draw a monster before saving!");
+        }
+    }
+
+    onMonsterDelete(event) {
+        if (this.boardController.getConfiguratorMonster()) {
+            let monster = this.boardController.getConfiguratorMonster();
+            // Delete the Link.
+            eventDispatcher.clearListeners(
+                `monster${monster.getAttribute("id")}`
+            );
+            // Delete the View and Model.
+            this.boardController.removeMonster(monster);
+        } else {
+            this.notifier.alert(
+                "Please drop a monster in the configurator before deleting it!"
+            );
         }
     }
 

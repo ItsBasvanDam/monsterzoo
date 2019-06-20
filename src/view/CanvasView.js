@@ -9,6 +9,7 @@ export default class CanvasView {
         container.classList.add("form-group");
 
         let label = document.createElement("label");
+        label.innerText = "Draw your monster";
         let breaker = document.createElement("br");
 
         this.canvas = document.createElement("canvas");

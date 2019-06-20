@@ -6,10 +6,17 @@ export default class ConfiguratorView extends ViewBase {
         document.querySelector("#configurator").append(this);
     }
 
-    addSubmit(text) {
+    addButton(text, visualClass, clickCallback = undefined, isSubmit = false) {
         let button = document.createElement("button");
         button.innerText = text;
-        button.classList.add("btn", "btn-block", "btn-success", "mt-3");
+        button.classList.add("btn", "btn-block", "mt-3");
+        button.classList.add(visualClass);
+        if (!isSubmit) {
+            button.type = "button";
+        }
+        if (clickCallback) {
+            button.addEventListener("click", clickCallback);
+        }
         this.addToVariableSection(button);
     }
 

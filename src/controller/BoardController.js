@@ -13,6 +13,7 @@ export default class BoardController {
         this.onDragStart = this.onDragStart.bind(this);
         this.onMouseEnter = this.onMouseEnter.bind(this);
         this.onMouseLeave = this.onMouseLeave.bind(this);
+        this.onMonsterClick = this.onMonsterClick.bind(this);
 
         this.regionViews = new Array();
         this.model = new BoardModel();
@@ -60,6 +61,15 @@ export default class BoardController {
 
     addMonster(monsterModel) {
         return this.model.addMonster(monsterModel);
+    }
+
+    removeMonster(monsterModel) {
+        // Remove the View.
+        let field = this.getConfiguratorField();
+        let fieldView = this.view.getFieldView(field.x, field.y, field.regionName);
+        fieldView.innerHTML = "";
+        // Remove the Model.
+        this.model.removeMonster(monsterModel.getAttribute("id"));
     }
 
     createConfiguratorField() {
@@ -130,6 +140,7 @@ export default class BoardController {
         newMonsterView.addEventListener("dragstart", this.onDragStart);
         newMonsterView.addEventListener("mouseenter", this.onMouseEnter);
         newMonsterView.addEventListener("mouseleave", this.onMouseLeave);
+        newMonsterView.addEventListener("click", this.onMonsterClick);
         newMonsterView.setData({
             x: x,
             y: y,
@@ -228,6 +239,10 @@ export default class BoardController {
 
     onMouseLeave(event) {
         event.target.hideInfo();
+    }
+
+    onMonsterClick(event) {
+        console.log('grrrr');
     }
 
     /**

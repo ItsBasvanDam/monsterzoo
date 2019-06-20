@@ -11,6 +11,8 @@ export default class MonsterView extends HTMLElement {
                     padding: .5rem;
                     box-shadow: 0 0 5px 0 black;
                     text-align: left;
+                    text-wrap: wrap;
+                    max-width: 200px;
                 }
             </style>
         `;

@@ -31,6 +31,12 @@ export default class BoardView extends ViewBase {
         this.region = document.createElement("div");
         this.append(this.region);
     }
+
+    getFieldView(x, y, regionName) {
+        return document.querySelector(
+            `td[data-x="${x}"][data-y="${y}"][data-region-name="${regionName}"]`
+        );
+    }
 }
 
 customElements.define("board-view", BoardView);
