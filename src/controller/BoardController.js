@@ -4,6 +4,7 @@ import SelectInputView from "../view/SelectInputView";
 import FieldView from "../view/FieldView";
 import MonsterView from "../view/MonsterView";
 import eventDispatcher from "../util/EventDispatcher";
+import { WeatherEnum } from "../util/helpers";
 
 export default class BoardController {
     constructor(monsterController) {
@@ -198,9 +199,35 @@ export default class BoardController {
         });
     }
 
+    monsterHasThePower(monsterType) {
+        if (this.weather) {
+            let weather = this.weather.weather;
+            // Return whether a monster of a type is able to do their
+            // special move, based on the type of the current weather
+            // in the region they are in.
+            switch (monsterType) {
+                case "fire":
+                    return weather == WeatherEnum.thunderstorm || weather == WeatherEnum.clear;
+                case "earth":
+                    return weather == WeatherEnum.snow;
+                case "water":
+                    return weather == WeatherEnum.rain || weather == WeatherEnum.drizzle;
+                case "air":
+                    return weather == WeatherEnum.clouds;
+            }
+        }
+        return false;
+    }
+
     onRegionChange(event) {
         let region = this.view.getRegionView(event.target.value);
         this.view.setCurrentRegion(region);
+        this.monsterController
+            .getWeather(this.model.getRegion(event.target.value).referenceCity)
+            .then(weather => {
+                this.monsterController.setWeather(weather);
+                this.weather = weather;
+            });
     }
 
     onDrop(event) {
@@ -261,7 +288,9 @@ export default class BoardController {
         let monsterType = this.model
             .getMonsterById(event.target.id)
             .getAttribute("monster-type");
-        event.target.animateReaction(monsterType);
+        if (this.monsterHasThePower(monsterType)) {
+            event.target.animateReaction(monsterType);
+        }
     }
 
     /**

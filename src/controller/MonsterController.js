@@ -9,6 +9,7 @@ import TextInputModel from "../model/TextInputModel";
 import CanvasController from "./CanvasController";
 import MonsterModel from "../model/MonsterModel";
 import AWN from "../../node_modules/awesome-notifications/dist/index";
+import WeatherController from "./WeatherController";
 
 export default class MonsterController {
     constructor() {
@@ -20,6 +21,7 @@ export default class MonsterController {
     }
 
     async initialize() {
+        this.weatherController = new WeatherController();
         this.boardController = new BoardController(this);
         this.canvasController = new CanvasController();
 
@@ -80,6 +82,14 @@ export default class MonsterController {
             this.model.getMonsterTypes(),
             false
         );
+    }
+
+    getWeather(referenceCity) {
+        return this.weatherController.getWeather(referenceCity);
+    }
+
+    setWeather(weather) {
+        this.weatherController.setWeather(weather);
     }
 
     createTextInput(
