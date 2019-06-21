@@ -11,3 +11,12 @@ export const WeatherEnum = Object.freeze({
     drizzle: "Drizzle",
     clouds: "Clouds"
 });
+
+/**
+ * Removes any dashes in strings, replaces them with
+ * spaces and caplitalizes the first character.
+ */
+String.prototype.prep = function() {
+    let spaceString = this.replace("-", " ");
+    return spaceString.charAt(0).toUpperCase() + spaceString.slice(1);
+};

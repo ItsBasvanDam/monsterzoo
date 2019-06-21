@@ -30,4 +30,17 @@ export default class MonsterModel {
     getAttribute(attributeName) {
         return this.attributes[attributeName];
     }
+
+    getDisplayData() {
+        // Exclude id, image and imageData.
+        let excludes = ["id", "image", "imageData"];
+        let displayData = [];
+        for (let key in this.attributes) {
+            // Apply the exclusions.
+            if (!excludes.includes(key)) {
+                displayData[key] = this.attributes[key];
+            }
+        };
+        return displayData;
+    }
 }

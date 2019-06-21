@@ -37,7 +37,7 @@ export default class MonsterView extends HTMLElement {
         balloon.style.visibility = "hidden";
         balloon.style.right = "-35px";
         balloon.style.top = "-25px";
-        balloon.style.zIndex = "2000";
+        balloon.style.zIndex = 500;
         return balloon;
     }
 
@@ -54,15 +54,14 @@ export default class MonsterView extends HTMLElement {
         this.image.src = this.imageSrc;
     }
 
-    displayInfo(monsterData) {
+    displayInfo(data) {
         let infoString = "";
-        let data = monsterData.attributes;
-        for (let key in monsterData.attributes) {
+        for (let key in data) {
             if (key != "id" && key != "image" && key != "imageData") {
-                infoString += `${key}: <strong>${data[key]}</strong><br>`;
+                infoString += `${key.prep()}: <strong>${data[key]}</strong><br>`;
             }
         }
-        this.card.style.borderColor = monsterData.attributes["color"];
+        this.card.style.borderColor = data["color"];
         this.card.innerHTML = infoString;
         this.card.style.visibility = "visible";
     }

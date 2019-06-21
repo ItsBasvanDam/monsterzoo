@@ -207,11 +207,17 @@ export default class BoardController {
             // in the region they are in.
             switch (monsterType) {
                 case "fire":
-                    return weather == WeatherEnum.thunderstorm || weather == WeatherEnum.clear;
+                    return (
+                        weather == WeatherEnum.thunderstorm ||
+                        weather == WeatherEnum.clear
+                    );
                 case "earth":
                     return weather == WeatherEnum.snow;
                 case "water":
-                    return weather == WeatherEnum.rain || weather == WeatherEnum.drizzle;
+                    return (
+                        weather == WeatherEnum.rain ||
+                        weather == WeatherEnum.drizzle
+                    );
                 case "air":
                     return weather == WeatherEnum.clouds;
             }
@@ -276,7 +282,11 @@ export default class BoardController {
 
     onMouseEnter(event) {
         let monsterData = this.model.getMonsterById(event.target.id);
-        event.target.displayInfo(monsterData);
+        let filteredData = monsterData.getDisplayData();
+        if (this.monsterHasThePower(monsterData.getAttribute("monster-type"))) {
+            filteredData["power-bonus"] = "+10%";
+        }
+        event.target.displayInfo(filteredData);
     }
 
     onMouseLeave(event) {
