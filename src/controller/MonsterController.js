@@ -51,11 +51,11 @@ export default class MonsterController {
     }
 
     displayLoading() {
-        document.querySelector("#loading").style.display = "block";
+        document.querySelector("#loading").classList.add("show");
     }
 
     hideLoading() {
-        document.querySelector("#loading").style.display = "none";
+        document.querySelector("#loading").classList.remove("show");
     }
 
     drawBoard() {
@@ -263,6 +263,7 @@ export default class MonsterController {
             newMonster.setCurrentField(
                 this.boardController.getConfiguratorField()
             );
+            this.notifier.success("Monster successfully saved!");
         } else {
             this.notifier.alert("Please draw a monster before saving!");
         }
@@ -277,6 +278,7 @@ export default class MonsterController {
             );
             // Delete the View and Model.
             this.boardController.removeMonster(monster);
+            this.notifier.success("Monster successfully deleted!");
         } else {
             this.notifier.alert(
                 "Please drop a monster in the configurator before deleting it!"

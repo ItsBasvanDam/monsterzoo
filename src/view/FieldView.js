@@ -5,7 +5,7 @@ export default class FieldView {
 
     createView(x, y, regionName, isDisabled) {
         let element = document.createElement("td");
-        element.classList.add("field");
+        element.classList.add("field", regionName);
 
         element.setAttribute("data-x", x);
         element.setAttribute("data-y", y);

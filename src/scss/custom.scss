@@ -4,36 +4,90 @@ body {
 
 #configurator,
 #board {
-    padding: 2rem;
+    padding: 1.5rem;
     height: 100vh;
     overflow: auto;
 }
 
 #loading {
     position: absolute;
-    z-index: 1000;
-    left: calc(50% - 25px);
-    top: calc(50% - 25px);
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+#loading.show {
+    display: flex;
+}
+#loading p {
+    margin: 0 0 0 10px;
 }
 
 td.field {
+    z-index: 0;
     text-align: center;
     width: 70px;
     min-width: 70px;
     height: 70px;
     min-height: 70px;
 }
+td.Jungle {
+    background-image: url('/dist/img/backgrounds/jungle.jpg');
+}
+td.IcePole {
+    background-image: url('/dist/img//backgrounds/icepole.jpg');
+}
+td.Sjahari {
+    background-image: url('/dist/img/backgrounds/sahara.jpg');
+}
+td.configurator {
+    background-color: lightgray;
+}
 
 td.field.uninabitable {
-    background: #999;
+    filter: brightness(70%);
+    z-index: 0;
 }
 
 canvas {
     cursor: crosshair;
+    background: lightgray;
 }
 
 canvas,
-td.field {
-    background: lightgray;
-    border: 1px solid darkgray;
+td.field,
+.form-control,
+.btn  {
+    border: 2px solid darkgray !important;
+}
+
+::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar
+{
+	width: 8px;
+	background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb
+{
+	background-color: darkgray;
+}
+
+.overflow-visible {
+    overflow: visible !important;
+}
+
+.form-control,
+.btn {
+    border-radius: 0 !important;
 }

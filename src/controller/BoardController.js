@@ -43,7 +43,7 @@ export default class BoardController {
         this.model.initializeBoard(boardData);
         this.model.initializeMonsters(monsterData);
 
-        await this.sleep(1000);
+        await this.sleep(2000);
     }
 
     async getBoardDataFromAPI() {
@@ -165,7 +165,7 @@ export default class BoardController {
     createRegionView(regionData) {
         // Build a gridview for the region.
         let table = document.createElement("table");
-        table.classList.add("table-responsive", "mt-2");
+        table.classList.add("table-responsive", "mt-2", "overflow-visible");
         let tableBody = document.createElement("tbody");
 
         for (let y in regionData.fields) {

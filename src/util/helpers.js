@@ -1,7 +1,5 @@
-/**
- * This file contains helper methods and enumerations
- * to be used by the application.
- */
+// This file contains helper methods and enumerations
+// to be used by the application.
 
 export const WeatherEnum = Object.freeze({
     thunderstorm: "Thunderstorm",
