@@ -40,7 +40,7 @@ export default class MonsterModel {
             if (!excludes.includes(key)) {
                 displayData[key] = this.attributes[key];
             }
-        };
+        }
         return displayData;
     }
 }

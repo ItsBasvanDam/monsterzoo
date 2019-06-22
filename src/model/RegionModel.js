@@ -16,7 +16,12 @@ export default class RegionModel {
             this.fields[y] = [];
             for (let x in this.grid[y]) {
                 let canHaveOccupant = this.grid[y][x] != "1";
-                this.fields[y][x] = new FieldModel(x, y, this.name, canHaveOccupant);
+                this.fields[y][x] = new FieldModel(
+                    x,
+                    y,
+                    this.name,
+                    canHaveOccupant
+                );
             }
         }
     }

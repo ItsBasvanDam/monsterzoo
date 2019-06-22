@@ -37,7 +37,9 @@ export default class SelectInputModel extends InputModel {
                 });
             } else {
                 throw new Error(
-                    `select input "${this.name}" does not have the option ${value}`
+                    `select input "${
+                        this.name
+                    }" does not have the option ${value}`
                 );
             }
         }

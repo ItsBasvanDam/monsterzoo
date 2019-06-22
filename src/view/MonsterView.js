@@ -58,7 +58,9 @@ export default class MonsterView extends HTMLElement {
         let infoString = "";
         for (let key in data) {
             if (key != "id" && key != "image" && key != "imageData") {
-                infoString += `${key.prep()}: <strong>${data[key]}</strong><br>`;
+                infoString += `${key.prep()}: <strong>${
+                    data[key]
+                }</strong><br>`;
             }
         }
         this.card.style.borderColor = data["color"];
