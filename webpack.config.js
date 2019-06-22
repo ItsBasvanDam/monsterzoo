@@ -4,7 +4,7 @@ module.exports = {
     entry: "./src/app.js",
     output: {
         filename: "app.js",
-        path: path.resolve(__dirname, "dist/js")
+        path: path.resolve(__dirname, "dist")
     },
     module: {
         rules: [
@@ -20,10 +20,8 @@ module.exports = {
                     {
                         loader: "postcss-loader",
                         options: {
-                            plugins: function () {
-                                return [
-                                    require("autoprefixer")
-                                ];
+                            plugins: function() {
+                                return [require("autoprefixer")];
                             }
                         }
                     },
@@ -31,6 +29,14 @@ module.exports = {
                         loader: "sass-loader"
                     }
                 ]
+            },
+            {
+                test: /\.(png|jpg|gif|svg|ico)$/,
+                loader: "file-loader",
+                query: {
+                    outputPath: "./img/",
+                    name: "[name].[ext]"
+                }
             }
         ]
     }

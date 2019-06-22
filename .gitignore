@@ -1,3 +1,4 @@
 node_modules
 .vscode/
-dist/js/app.js
+dist/app.js
+dist/img/*
