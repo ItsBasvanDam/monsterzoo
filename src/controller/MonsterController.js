@@ -208,7 +208,7 @@ export default class MonsterController {
                     break;
             }
         });
-        // Validate all attributes to set them and check validity.
+        // Validate all attributes to set them and ensure validity.
         this.model.validateAll();
         this.view.addToVariableSection(this.canvasController.getElement());
         this.view.addButton("Save Monster", "btn-success", undefined, true);

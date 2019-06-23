@@ -64,9 +64,14 @@ export default class BoardModel {
         }
     }
 
+    /**
+     * Adds the monster to the monsters list and returns
+     * a unique ID for the new monster.
+     * @param monsterModel
+     */
     addMonster(monsterModel) {
         this.monsters.push(monsterModel);
-        // Return a unique ID for the new monster.
+        // Unique ID consists of the current milliseconds.
         return new Date().valueOf();
     }
 

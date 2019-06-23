@@ -37,10 +37,10 @@ export default class WeatherController {
      * Change the return value to override the weather.
      */
     getWeatherOverride() {
-        // return undefined;
-        return {
-            weather: WeatherEnum.rain,
-            icon: "01d"
-        };
+        return undefined;
+        // return {
+        //     weather: WeatherEnum.rain,
+        //     icon: "01d"
+        // };
     }
 }
